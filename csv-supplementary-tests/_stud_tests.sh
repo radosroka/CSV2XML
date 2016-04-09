@@ -56,9 +56,11 @@
 #
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+set -o xtrace
+
 TASK=csv
-INTERPRETER="php -d open_basedir=\"\""
-EXTENSION=php
+INTERPRETER="python3"
+EXTENSION=py
 #INTERPRETER=python3
 #EXTENSION=py
 
