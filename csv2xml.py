@@ -4,32 +4,26 @@ import sys
 import argparse
 import re
 from lxml import etree
+import xml.dom.minidom
+import sys
+sys.path.append(sys.path.pop(0))
+import csv
 
-def meta_conv(string):
-	string = string.replace("<", "&lt;")
-	string = string.replace("&", "&amp;")
-	string = string.replace('\r', '')
-	string = string.replace(">", "&gt;")
-	string = string.replace('\"', "&quot;")	
-	return string
+def meta_conv(cell):
+	# cell = cell.replace("&", "&amp;")
+	# cell = cell.replace("<", "&lt;")
+	# cell = cell.replace(">", "&gt;")
+	# cell = cell.replace("\'", "&apos;")
+	# cell = cell.replace('\"', "&quot;")
+	# cell = cell.replace('\r', '')
+	return cell
 
-def check_root_tag(string):
-	if  None != re.match('^[^\w:_].*$', string)  or None != re.match('^[0-9].*$', string) or None != re.match('[^\w:_\.\-]', string):
-		print ("Invalid root tag", file=sys.stderr)
-		exit(30)
-	return
-	
-def check_line_tag(string):
-	if  None != re.match('^[^\w:_].*$',string) or None != re.match('^[0-9].*$', string) or None != re.match('[^\w:_\.\-]', string):
-		print ("Invalid line tag", file=sys.stderr)
-		exit(30)
-	return
-
-def check_col_tag(string):
-	if  None != re.match('^[^\w:_].*$',string) or None != re.match('^[0-9].*$', string) or None != re.match('[^\w:_\.\-]', string):
-		print ("Invalid col tag", file=sys.stderr)
-		exit(30)
-	return
+def substitution(rows):
+	if len(rows[0]) < 1: return
+	chars = (' ', ',', '\n', '\r')
+	for i in range(0, len(rows[0])):
+		for c in chars:
+			rows[0][i] = rows[0][i].replace(c, options.subst)
 
 parser = parser = argparse.ArgumentParser(description='CSV2XML', add_help=False)
 parser.add_argument("--help", action="store_true", dest="help",
@@ -74,7 +68,7 @@ parser.add_argument("--all-columns",
 	  action="store_true", default=False)
 
 options = parser.parse_args()
-print (options)
+# print (options)
 # print (sys.argv)
 
 if options.help:
@@ -103,30 +97,27 @@ if options.separator == "TAB":
 if options.start <= 0:
 	parser.error("--start must be greater than zero")
 
-if options.root_element != None:
-	check_root_tag(options.root_element)
-check_line_tag(options.line_element)
-check_col_tag(options.column_element)
-
-input_data = ""
+rows = list()
 try:
 	if type(options.input_file) == str:
-		f = open(options.input_file, "r", encoding="UTF-8")
-		input_data = f.read()
-		f.close()
+		with open(options.input_file, "r", encoding="UTF-8", newline="") as f:
+			csv_iter = csv.reader(f, delimiter=options.separator, quotechar="\"", quoting=csv.QUOTE_ALL)
+			for row in csv_iter:
+				rows.append("?????".join(row))
 	else:
-		input_data = options.input_file.read()
+		csv_iter = csv.reader(options.input_file, delimiter=options.separator, quotechar="\"")
+		for row in csv_iter:
+			rows.append("?????".join(row))
 except OSError as err:
 	print("OS error: {0}".format(err), file=sys.stderr)
 	exit(2)
 
-#print (input_data)
-rows = input_data.split("\n")
+
 for i in range(0, len(rows)):
-	rows[i] = rows[i].split(options.separator)
+	rows[i] = rows[i].split("?????")
 
+print (rows)
 right_count = len(rows[0])
-
 
 if not options.error_recovery:
 	for row in rows:
@@ -143,39 +134,80 @@ else:
 
 # print (rows)
 
-#building xml
+# building xml
 
-output_data = ""
-root = None
+indent = "    "
+ind_num = 2
 if options.root_element:
-	root = etree.Element(options.root_element)
-for row in rows:
-	r = None
-	if options.i:
+	ind_num += 1
+
+try:
+	output_data = ""
+	root = None
+	if options.root_element:
+		root = etree.Element(options.root_element)
+	
+	if options.subst is None:
+		for row in rows:
+			r = None
+			if options.i:
+				if options.root_element:
+					r = etree.SubElement(root, options.line_element, index=str(options.start))
+				else:
+					r = etree.Element(options.line_element, index=str(options.start))
+				options.start += 1
+			else:
+				if options.root_element:
+					r = etree.SubElement(root, options.line_element)
+				else:
+					r = etree.Element(options.line_element)
+			counter = 1
+			for col in row:
+				cell = etree.SubElement(r, options.column_element + str(counter))
+				cell.text = "\n" + ind_num*indent + meta_conv(col) + "\n" + (ind_num-1)*indent
+				counter += 1
+			if not options.root_element:
+				output_data += (etree.tostring(r, pretty_print=True).decode("UTF-8"))
 		if options.root_element:
-			r = etree.SubElement(root, options.line_element, index=str(options.start))
-		else:
-			r = etree.Element(options.line_element, index=str(options.start))
-		options.start += 1
+			output_data = etree.tostring(root, pretty_print=True).decode("UTF-8")
+
 	else:
+		substitution(rows)
+		for j in range(0, len(rows)):
+			if j == 0 and len(rows) > 1: continue
+			r = None
+			if options.i:
+				if options.root_element:
+					r = etree.SubElement(root, options.line_element, index=str(options.start))
+				else:
+					r = etree.Element(options.line_element, index=str(options.start))
+				options.start += 1
+			else:
+				if options.root_element:
+					r = etree.SubElement(root, options.line_element)
+				else:
+					r = etree.Element(options.line_element)
+			for i in range(0, len(rows[0])):
+				cell = etree.SubElement(r, rows[0][i])
+				if len(rows) != 1: cell.text = "\n" + ind_num*indent + meta_conv(rows[j][i]) + "\n" + (ind_num-1)*indent
+			if not options.root_element:
+				output_data += (etree.tostring(r, pretty_print=True).decode("UTF-8"))
 		if options.root_element:
-			r = etree.SubElement(root, options.line_element)
-		else:
-			r = etree.Element(options.line_element)
-	counter = 1
-	for col in row:
-		cell = etree.SubElement(r, options.column_element + str(counter))
-		cell.text = col
-		counter += 1
-	if not options.root_element:
-		output_data += (etree.tostring(r, pretty_print=True).decode("UTF-8"))
-if options.root_element:
-	output_data = etree.tostring(root, pretty_print=True).decode("UTF-8")
+			output_data = etree.tostring(root, pretty_print=True).decode("UTF-8")
+
+except ValueError as err:
+	print("Invalid tag name", file=sys.stderr)
+	exit(30)
+
+
 
 if not options.n:
 	output_data = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + output_data;
 
 #print output
+
+#output_data = xml.dom.minidom.parseString(output_data).toprettyxml(indent=indent, encoding="UTF-8").decode("UTF-8")
+
 try:
 	if type(options.output_file) == str:
 		f = open(options.output_file, "w", newline='', encoding="UTF-8")
