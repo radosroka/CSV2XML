@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+#CSV:xsroka00
 import sys
 import argparse
 import re
@@ -73,6 +74,7 @@ if options.help:
 	if len(sys.argv) != 2:
 		parser.error("Parameter --help needs to be alone")
 	parser.print_help()
+	exit(0)
 
 if options.i and not options.line_element:
 	parser.error("Parameter -i cannot be without -l")
