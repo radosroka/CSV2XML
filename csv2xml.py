@@ -10,13 +10,11 @@ sys.path.append(sys.path.pop(0))
 import csv
 
 def meta_conv(cell):
-	# cell = cell.replace("&", "&amp;")
-	# cell = cell.replace("<", "&lt;")
-	# cell = cell.replace(">", "&gt;")
-	# cell = cell.replace("\'", "&apos;")
-	# cell = cell.replace('\"', "&quot;")
-	# cell = cell.replace('\r', '')
+	cell = cell.replace("\"", "???")
 	return cell
+
+def conv_meta(match):
+	return chr(int(match.group(2)))
 
 def substitution(rows):
 	if len(rows[0]) < 1: return
@@ -76,7 +74,7 @@ if options.help:
 		parser.error("Parameter --help needs to be alone")
 	parser.print_help()
 
-if options.i and "-l" not in sys.argv:
+if options.i and not options.line_element:
 	parser.error("Parameter -i cannot be without -l")
 
 if "-h" in sys.argv and options.subst == None:
@@ -101,7 +99,7 @@ rows = list()
 try:
 	if type(options.input_file) == str:
 		with open(options.input_file, "r", encoding="UTF-8", newline="") as f:
-			csv_iter = csv.reader(f, delimiter=options.separator, quotechar="\"", quoting=csv.QUOTE_ALL)
+			csv_iter = csv.reader(f, delimiter=options.separator, quotechar="\"")
 			for row in csv_iter:
 				rows.append("?????".join(row))
 	else:
@@ -116,7 +114,7 @@ except OSError as err:
 for i in range(0, len(rows)):
 	rows[i] = rows[i].split("?????")
 
-print (rows)
+# print (rows)
 right_count = len(rows[0])
 
 if not options.error_recovery:
@@ -136,7 +134,7 @@ else:
 
 # building xml
 
-indent = "    "
+indent = "  "
 ind_num = 2
 if options.root_element:
 	ind_num += 1
@@ -187,9 +185,14 @@ try:
 					r = etree.SubElement(root, options.line_element)
 				else:
 					r = etree.Element(options.line_element)
-			for i in range(0, len(rows[0])):
-				cell = etree.SubElement(r, rows[0][i])
+			for i in range(0, len(rows[j])):
+			
+				if i >= len(rows[0]) and options.all_columns: cell = etree.SubElement(r, options.column_element + str(i+1))
+				elif i < len(rows[0]): cell = etree.SubElement(r, rows[0][i])
+				else: continue
+
 				if len(rows) != 1: cell.text = "\n" + ind_num*indent + meta_conv(rows[j][i]) + "\n" + (ind_num-1)*indent
+			
 			if not options.root_element:
 				output_data += (etree.tostring(r, pretty_print=True).decode("UTF-8"))
 		if options.root_element:
@@ -206,7 +209,9 @@ if not options.n:
 
 #print output
 
-#output_data = xml.dom.minidom.parseString(output_data).toprettyxml(indent=indent, encoding="UTF-8").decode("UTF-8")
+output_data = re.sub(r"(&#(\d{3});)", conv_meta, output_data)
+output_data = re.sub(r"\?\?\?", "&quot;", output_data)
+output_data = re.sub(r"\ \ ", 2*indent, output_data)
 
 try:
 	if type(options.output_file) == str:
