@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<row>
+    <a>
+        b
+    </a>
+    <xb>
+        c
+    </xb>
+</row>
+<row>
+    <a>
+        x
+    </a>
+    <xb>
+        y
+    </xb>
+</row>

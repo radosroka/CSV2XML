@@ -1,0 +1,13 @@
+<root>
+    <row>
+        <Col1>
+            foo
+        </Col1>
+        <Col2>
+            foo,bar
+        </Col2>
+        <Col3>
+            foo:&quot;bar&quot;
+        </Col3>
+    </row>
+</root>

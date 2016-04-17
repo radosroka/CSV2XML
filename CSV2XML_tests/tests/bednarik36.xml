@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <line index="1">
+        <col1>
+            aěščřřýžáhoj
+        </col1>
+        <col2>
+            svete	lomitko\&quot;uvozovkyOK
+        </col2>
+        <col3>
+             konec	testu
+        </col3>
+    </line>
+</root>

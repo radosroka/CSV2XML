@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF8"?>
+<root>
+  <row>
+    <jmeno>Petr</jmeno>
+    <prijmeni>Kachlicka</prijmeni>
+    <bydliste>žluťoučký_koníček</bydliste>
+    <datum-narozeni>žluťoučký_koníček</datum-narozeni>
+  </row>
+  <row>
+    <jmeno>Ales</jmeno>
+    <prijmeni>Sela</prijmeni>
+    <bydliste>Kutna Hora, Dolni 666</bydliste>
+    <datum-narozeni>6.6.1996</datum-narozeni>
+  </row>
+  <row>
+    <jmeno>Lubomir</jmeno>
+    <prijmeni>Novotny</prijmeni>
+    <bydliste>Jihlava, Ztracena 8</bydliste>
+    <datum-narozeni>žluťoučký_koníček</datum-narozeni>
+  </row>
+</root>

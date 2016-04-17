@@ -10,9 +10,9 @@ cp ~/jexamxml.jar ./
 for  i in `seq 1 18` ;
 do
 if [ $i -lt 10 ]; then
-	java -jar ./jexamxml.jar test0$i.xml ref-out/test0$i.xml
+	java -jar ./jexamxml.jar test0$i.xml ref-out/test0$i.xml -D csv_options
 else 
-	java -jar ./jexamxml.jar test$i.xml ref-out/test$i.xml
+	java -jar ./jexamxml.jar test$i.xml ref-out/test$i.xml -D csv_options
 fi
 done
 

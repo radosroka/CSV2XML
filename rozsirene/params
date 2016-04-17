@@ -1,0 +1,39 @@
+0-01:-r=root
+0-02:-r=root -n
+0-03:-r=root -h
+0-04:-r=root -s=,
+0-05:-r=root -s=;
+0-06:-r=root -l=radek
+0-07:-r=root -l=řádek
+0-08:-r=root -l=A_.-RaDek123
+0-09:-r=root -l=row -i
+0-10:-r=root -l=row -i --start=8
+0-11:-r=root -l=row -i --start=0
+0-12:-r=root -e
+0-13:-r=root --error-recovery
+0-14:-r=root -e -h
+0-15:-r=root -e -h
+0-16:-r=root -e --missing-field=chybějící_údaj
+0-17:-r=root -e --missing-field=a<b&&c>d
+0-18:-r=root -e -h --missing-field=žluťoučký_koníček
+0-19:-r=root -e --all-columns
+0-20:-r=root -e -h --all-columns
+0-21:-r=root -e --all-columns --missing-field=trololo
+0-22:-r=root -e -h --all-columns --missing-field=trololo
+0-23:-r=root -e -h --all-columns --missing-field=vzoreček:ž<ý -l=čočka -i --start=15
+0-24:-r=root -s=~ -h
+0-25:-r=root -s=TAB -h
+0-26:-r=root -h
+0-27:-r=root
+0-28:-r=root -l=ra-dek
+0-29:-r=root -l=radek -i -n
+0-30:-r=root -s=\; -e
+0-31:-r=root --start=2 -h -i -l=data
+0-32:-r=root
+0-33:-r=root
+0-34:-r=róót  -h
+0-35:-r=root -h
+0-36:-r=root -l=line -i
+0-37:-r=root --start=5 -i -s=TAB -l=row
+0-38:-r=root -s=TAB -h
+0-39:-r=root --all-columns -e

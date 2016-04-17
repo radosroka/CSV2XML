@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF8"?>
+<root>
+  <row>
+    <col1>jmeno</col1>
+    <col2>prijmeni</col2>
+    <col3>bydliste</col3>
+    <col4>datum narozeni</col4>
+  </row>
+  <row>
+    <col1>Petr</col1>
+    <col2>trololo</col2>
+    <col3>trololo</col3>
+    <col4>trololo</col4>
+  </row>
+  <row>
+    <col1>Ales</col1>
+    <col2>Sela</col2>
+    <col3>Kutna Hora, Dolni 666</col3>
+    <col4>6.6.1996</col4>
+    <col5>jedna</col5>
+    <col6>dve</col6>
+    <col7>tri</col7>
+    <col8>ctyri</col8>
+  </row>
+  <row>
+    <col1>Lubomir</col1>
+    <col2>Novotny</col2>
+    <col3>Jihlava, Ztracena 8</col3>
+    <col4>4.3.1997</col4>
+  </row>
+</root>

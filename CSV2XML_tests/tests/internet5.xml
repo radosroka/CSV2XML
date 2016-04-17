@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<char>
+    <name>
+        <role>
+            Indiana Jones
+        </role>
+        <actor>
+            Harrison Ford
+        </actor>
+        <part>
+            protagonist
+        </part>
+        <film>
+            Indiana Jones and Raiders of the Lost Ark
+        </film>
+        <film5>
+            Indiana Jones and the Temple of Doom
+        </film5>
+        <film6>
+            Indiana Jones and the Last Crusade
+        </film6>
+        <film7>
+            Indiana Jones and the Kingdom of the Crystal Skull
+        </film7>
+    </name>
+    <name>
+        <role>
+            Wilhelmina Scott
+        </role>
+        <actor>
+            Kate Capshaw
+        </actor>
+        <part>
+            support
+        </part>
+        <film>
+            Indiana Jones and the Temple of Doom
+        </film>
+    </name>
+    <name>
+        <role>
+            Marion Ravenwood
+        </role>
+        <actor>
+            Karen Allen
+        </actor>
+        <part>
+            support
+        </part>
+        <film>
+            Indiana Jones and Raiders of the Lost Ark
+        </film>
+        <film5>
+            Indiana Jones and the Kingdom of the Crystal Skull
+        </film5>
+    </name>
+    <name>
+        <role>
+            Elsa Schneider
+        </role>
+        <actor>
+            Alison Doody
+        </actor>
+        <part>
+            support
+        </part>
+        <film>
+            Indiana Jones and the Last Crusade
+        </film>
+    </name>
+    <name>
+        <role>
+            Short Round
+        </role>
+        <actor>
+            Jonathan Ke Quan
+        </actor>
+        <part>
+            support
+        </part>
+        <film>
+            Indiana Jones and the Temple of Doom
+        </film>
+    </name>
+    <name>
+        <role>
+            Sallah
+        </role>
+        <actor>
+            Jonn Rhys-Davies
+        </actor>
+        <part>
+            support
+        </part>
+        <film>
+            Indiana Jones and Raiders of the Lost Ark
+        </film>
+        <film5>
+            Indiana Jones and the Last Crusade
+        </film5>
+    </name>
+    <name>
+        <role>
+            Professor Henry Jones
+        </role>
+        <actor>
+            Sean Connery
+        </actor>
+        <part>
+            support
+        </part>
+        <film>
+            Indiana Jones and the Last Crusade
+        </film>
+    </name>
+    <name>
+        <role>
+            Henry Mutt Williams
+        </role>
+        <actor>
+            Shia LaBeouf
+        </actor>
+        <part>
+            support
+        </part>
+        <film>
+            Indiana Jones and the Kingdom of the Crystal Skull
+        </film>
+    </name>
+    <name>
+        <role>
+            Marcus Brody
+        </role>
+        <actor>
+            Denholm Elliott
+        </actor>
+        <part>
+            support
+        </part>
+        <film>
+            Indiana Jones and Raiders of the Lost Ark
+        </film>
+        <film5>
+            Indiana Jones and the Last Crusade
+        </film5>
+    </name>
+    <name>
+        <role>
+            Amrish Puri
+        </role>
+        <actor>
+            Mola Ram
+        </actor>
+        <part>
+            antagonist
+        </part>
+        <film>
+            Indiana Jones and the Temple of Doom
+        </film>
+    </name>
+    <name>
+        <role>
+            Rene Belloq
+        </role>
+        <actor>
+            Belloq
+        </actor>
+        <part>
+            antagonist
+        </part>
+        <film>
+            Indiana Jones and Raiders of the Lost Ark
+        </film>
+    </name>
+    <name>
+        <role>
+            Walter Donovan
+        </role>
+        <actor>
+            Julian Glover
+        </actor>
+        <part>
+            antagonist
+        </part>
+        <film>
+            Indiana Jones and the Last Crusade
+        </film>
+    </name>
+    <name>
+        <role>
+            Colonel Vogel
+        </role>
+        <actor>
+            Michael Bryne
+        </actor>
+        <part>
+            antagonist
+        </part>
+        <film>
+            Indiana Jones and the Last Crusade
+        </film>
+    </name>
+    <name>
+        <role>
+            Irina Spalko
+        </role>
+        <actor>
+            Cate Blanchett
+        </actor>
+        <part>
+            antagonist
+        </part>
+        <film>
+            Indiana Jones and the Kingdom of the Crystal Skull
+        </film>
+    </name>
+</char>

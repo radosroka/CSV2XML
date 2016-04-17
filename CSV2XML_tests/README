@@ -1,0 +1,21 @@
+Autor: xlamac00@stud.fit.vutbr.cz
+Link:  https://fituska.eu/viewforum.php?f=1198&sid=47544d3f02600dfe7a606fe8f21b820a
+
+ABOUT:
+ - Automaticky skript v BASHi, ktery porovnava uspesnost prevodu
+   CSV souboru do XML pro potreby projektu do predmetu IPP na FIT VUT
+
+SPUSTENI:
+ - Skript check.sh ulozte do stejne slozky jako Vas program (csv[.py])
+ - chmod +x ./check
+ - ./check
+
+DULEZITE:
+ - Nepodarilo se mi rozumne nastavit Jexamxml, takze vse probiha pomoci programu diff
+ - Soubory jsou formatovay podle "FIT standardu", tedy odsazeny
+   ctyrma mezerama presne podle vzorovych testu
+
+ - Autor neruci za spravnost testu, ale pripadne chyby mi prosim hlaste
+   nejlip na fitusku, nebo na email, abych mohl vse opravit
+
+Snad to nekomu pomuze k odhaleni a zautomatizovani sveho projektu :)

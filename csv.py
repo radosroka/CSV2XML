@@ -10,6 +10,25 @@ import sys
 sys.path.append(sys.path.pop(0))
 import csv
 
+class MyArgParse(argparse.ArgumentParser):
+	"""docstring for MyArgParse"""
+	def __init__(self):
+		super(MyArgParse, self).__init__(description='CSV2XML', add_help=False)
+
+	def error(self, message):
+		"""error(message: string)
+
+		Prints a usage message incorporating the message to stderr and
+		exits.
+
+		If you override this in a subclass, it should not return -- it
+		should either exit or raise an exception.
+		"""
+		self.print_usage(sys.stderr)
+		args = {'prog': self.prog, 'message': message}
+		self.exit(1, ('%(prog)s: error: %(message)s\n') % args)
+
+
 def meta_conv(cell):
 	cell = cell.replace("\"", "???")
 	return cell
@@ -24,7 +43,7 @@ def substitution(rows):
 		for c in chars:
 			rows[0][i] = rows[0][i].replace(c, options.subst)
 
-parser = parser = argparse.ArgumentParser(description='CSV2XML', add_help=False)
+parser = MyArgParse()
 parser.add_argument("--help", action="store_true", dest="help",
 				  default=False, help="Show this help message and exit")
 parser.add_argument("--input",
@@ -49,7 +68,7 @@ parser.add_argument("-c",
 	  metavar="column_element", default="col")
 parser.add_argument("-l",
 	  dest="line_element", help="Set line-element",
-	  metavar="line_element", default="row")
+	  metavar="line_element", default=None)
 parser.add_argument("-i", 
 	  action="store_true", dest="i",
 	  default=False, help="Insert index into line-element")
@@ -67,8 +86,6 @@ parser.add_argument("--all-columns",
 	  action="store_true", default=False)
 
 options = parser.parse_args()
-# print (options)
-# print (sys.argv)
 
 if options.help:
 	if len(sys.argv) != 2:
@@ -78,11 +95,14 @@ if options.help:
 
 if options.i and not options.line_element:
 	parser.error("Parameter -i cannot be without -l")
+if not options.line_element: options.line_element = "row"
 
 if "-h" in sys.argv and options.subst == None:
 	options.subst = "-"
 
-if "--start" in sys.argv and "-i" not in sys.argv:
+ar = ""
+for i in sys.argv: ar += i
+if "--start" in ar and not options.i:
 	parser.error("Parameter --start cannot be without -i and -l")
 
 if options.missing_field and not options.error_recovery:
@@ -94,8 +114,12 @@ if options.all_columns and not options.error_recovery:
 if options.separator == "TAB":
 	options.separator = "\t"
 
-if options.start <= 0:
-	parser.error("--start must be greater than zero")
+if options.start < 0:
+	parser.error("--start must be greater or equal than zero")
+
+if len(options.separator) != 1:
+	print ("Separator must be one char", file=sys.stderr)
+	exit(1)
 
 rows = list()
 try:
@@ -164,7 +188,10 @@ try:
 			counter = 1
 			for col in row:
 				cell = etree.SubElement(r, options.column_element + str(counter))
-				cell.text = "\n" + ind_num*indent + meta_conv(col) + "\n" + (ind_num-1)*indent
+				if col != "":
+					cell.text = "\n" + ind_num*indent + meta_conv(col) + "\n" + (ind_num-1)*indent
+				else:
+					cell.text = "\n" + (ind_num-1)*indent
 				counter += 1
 			if not options.root_element:
 				output_data += (etree.tostring(r, pretty_print=True).decode("UTF-8"))
@@ -189,11 +216,16 @@ try:
 					r = etree.Element(options.line_element)
 			for i in range(0, len(rows[j])):
 			
-				if i >= len(rows[0]) and options.all_columns: cell = etree.SubElement(r, options.column_element + str(i+1))
-				elif i < len(rows[0]): cell = etree.SubElement(r, rows[0][i])
-				else: continue
+				try:
+					if i >= len(rows[0]) and options.all_columns: cell = etree.SubElement(r, options.column_element + str(i+1))
+					elif i < len(rows[0]): cell = etree.SubElement(r, rows[0][i])
+					else: continue
+				except ValueError as err:
+					print("Invalid tag name", file=sys.stderr)
+					exit(31)
 
-				if len(rows) != 1: cell.text = "\n" + ind_num*indent + meta_conv(rows[j][i]) + "\n" + (ind_num-1)*indent
+				if len(rows) != 1 and rows[j][i] == "": cell.text = "\n" + (ind_num-1)*indent
+				elif len(rows) != 1: cell.text = "\n" + ind_num*indent + meta_conv(rows[j][i]) + "\n" + (ind_num-1)*indent
 			
 			if not options.root_element:
 				output_data += (etree.tostring(r, pretty_print=True).decode("UTF-8"))
@@ -211,7 +243,7 @@ if not options.n:
 
 #print output
 
-output_data = re.sub(r"(&#(\d{3});)", conv_meta, output_data)
+output_data = re.sub(r"(&#(\d{2,3});)", conv_meta, output_data)
 output_data = re.sub(r"\?\?\?", "&quot;", output_data)
 output_data = re.sub(r"\ \ ", 2*indent, output_data)
 
@@ -224,4 +256,4 @@ try:
 		options.output_file.write(output_data)
 except OSError as err:
 	print("OS error: {0}".format(err), file=sys.stderr)
-	exit(2)
+	exit(3)

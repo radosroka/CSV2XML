@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<company>
+    <record index="1001">
+        <name>
+            mkyong
+        </name>
+        <age>
+            31
+        </age>
+        <dob>
+            31/08/1982
+        </dob>
+        <income>
+            200000
+        </income>
+    </record>
+    <record index="1002">
+        <name>
+            joel
+        </name>
+        <age>
+            29
+        </age>
+        <dob>
+            21/08/1984
+        </dob>
+        <income>
+            1000000
+        </income>
+    </record>
+    <record index="1003">
+        <name>
+            leeyy
+        </name>
+        <age>
+            29
+        </age>
+        <dob>
+            21/03/1984
+        </dob>
+        <income>
+            80000.89
+        </income>
+    </record>
+</company>
