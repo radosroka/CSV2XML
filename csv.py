@@ -141,6 +141,9 @@ for i in range(0, len(rows)):
 	rows[i] = rows[i].split("?????")
 
 # print (rows)
+if len(rows) == 0: 
+	rows.append(list())
+	rows[0].append("")
 right_count = len(rows[0])
 
 if not options.error_recovery:
